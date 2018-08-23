@@ -72,7 +72,7 @@ class App extends Component {
             </button>
           </section>
           </header>
-          <button onClick={Fire.backupTodos}>Backup Todos</button>
+          <button className="back-up" onClick={Fire.backupTodos}>Backup Todos</button>
           <main>
           {this.state.todos.map((todo, i) => (
             <article key={`todo${i}`} className={`todo__wrapper todo__wrapper--${todo.done ? 'done' : 'not-done'}`}>
