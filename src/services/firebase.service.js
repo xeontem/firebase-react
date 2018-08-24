@@ -42,11 +42,11 @@ class Firestore {
 
   updateField(id, field, value) {
     return firebase.firestore().collection('todos').doc(id)
-      .update({ [field]: value });
+      .update({ [field]: value }).catch(e => e);
   }
 
   toggleDone(id, done) {
-    firebase.firestore().collection('todos').doc(id).update({ done })
+    firebase.firestore().collection('todos').doc(id).update({ done }).catch(e => e);
   }
 
   login() {
@@ -93,11 +93,12 @@ class Firestore {
 
   subscribeForTopic(token, topic) {
     firebase.functions().httpsCallable('subscribeToTopic')({ token, topic })
+      .catch(e => e);
   }
 
   uploadFile(id, file) {
     const ref = firebase.storage().ref('todos/' + id + '/' + file.name);
-    const task = ref.put(file);
+    const task = ref.put(file).catch(e => e);
     return task;
   }
 
@@ -105,7 +106,7 @@ class Firestore {
     firebase.storage().ref('todos/' + id + '/' + file.name).delete()
       .then(succ => {
         firebase.firestore().collection('todos').doc(id).update({ attachments });
-      });
+      }).catch(e => e);
   }
 }
 

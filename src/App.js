@@ -46,7 +46,7 @@ class App extends Component {
   logout = () => {
     Fire.logout().then(user => {
       this.setState({ user });
-    });
+    }).catch(e => e);
   }
 
   getMessage() {
@@ -79,8 +79,8 @@ class App extends Component {
         .then(url => Fire.updateField(
           this.state.todos[i].id,
           'attachments',
-          [...this.state.todos[i].attachments, { url, name: file.name }]
-        ));
+          [...this.state.todos[i].attachments, { url, name: file.name }]))
+        .catch(e => e);
     }
   }
 
