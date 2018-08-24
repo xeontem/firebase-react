@@ -3,6 +3,7 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/functions';
 import 'firebase/messaging';
+import 'firebase/storage';
 
 // Initialize Firebase
 var config = {
@@ -28,20 +29,20 @@ class Firestore {
     }).then(currentToken => {
       this.subscribeForTopic(currentToken, 'TODOS');
     })
-    .then(x => console.log('Notification permission granted.'))
+    // .then(x => console.log('Notification permission granted.'))
     .catch((err) => console.log('Unable to get permission to notify.', err));
 
     firebase.firestore().settings({ timestampsInSnapshots: true });
   }
 
-  getTodos() {
-    return firebase.firestore().collection('todos').get()
-      .then(snapShot => snapShot.docs.map(doc => ({ ...doc.data(), id: doc.id })));
-  }
-
   subscribe(cb) {
     return firebase.firestore().collection('todos')
       .onSnapshot(snapShot => cb(snapShot.docs.map(doc => ({ ...doc.data(), id: doc.id }))));
+  }
+
+  updateField(id, field, value) {
+    return firebase.firestore().collection('todos').doc(id)
+      .update({ [field]: value });
   }
 
   toggleDone(id, done) {
@@ -78,24 +79,33 @@ class Firestore {
   }
 
   backupTodos() {
-    console.log(firebase.auth())
     firebase.functions().httpsCallable('backupTodos')().then(function(result) {
       // Read result of the Cloud Function.
       // console.log(result)
     }).catch(function(error) {
       // Getting the Error details.
-      var code = error.code;
-      var message = error.message;
-      var details = error.details;
+      // var code = error.code;
+      // var message = error.message;
+      // var details = error.details;
       // ...
     });
   }
 
   subscribeForTopic(token, topic) {
     firebase.functions().httpsCallable('subscribeToTopic')({ token, topic })
-      // .then(res => {
-      //   console.log('subscribed to topic: ', topic);
-      // });
+  }
+
+  uploadFile(id, file) {
+    const ref = firebase.storage().ref('todos/' + id + '/' + file.name);
+    const task = ref.put(file);
+    return task;
+  }
+
+  deleteFile(id, file, attachments) {
+    firebase.storage().ref('todos/' + id + '/' + file.name).delete()
+      .then(succ => {
+        firebase.firestore().collection('todos').doc(id).update({ attachments });
+      });
   }
 }
 
