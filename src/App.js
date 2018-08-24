@@ -33,12 +33,6 @@ class App extends Component {
     });
   };
 
-  componentWillUnmount() {
-    this.subscription();
-    this.authSubscription();
-    this.msgSubscription();
-  }
-
   toggleDone = i => e => {
     Fire.toggleDone(this.state.todos[i].id, !this.state.todos[i].done);
   }
