@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
 import logo from './logo.svg';
-import Fire from './services/firebase.service';
 import { Message } from './message';
+import React, { Component } from 'react';
 import { ProgressBar } from './progressBar';
+import Fire from './services/firebase.service';
 import './App.css';
 
 class App extends Component {
@@ -46,7 +46,7 @@ class App extends Component {
   logout = () => {
     Fire.logout().then(user => {
       this.setState({ user });
-    }).catch(e => e);
+    });
   }
 
   getMessage() {
