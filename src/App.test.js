@@ -20,3 +20,8 @@ it('renders three <App /> component', () => {
   const wrapper = shallow(<App />);
   expect(wrapper.exists()).equals(true);
 });
+
+it('renders three <App /> component', () => {
+  const wrapper = shallow(<App />);
+  expect(wrapper.exists()).equals(true);
+});
