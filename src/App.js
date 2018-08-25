@@ -46,7 +46,7 @@ class App extends Component {
   logout = () => {
     Fire.logout().then(user => {
       this.setState({ user });
-    }).catch(e => e);
+    });
   }
 
   getMessage() {
