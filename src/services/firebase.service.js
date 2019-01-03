@@ -98,7 +98,7 @@ class Firestore {
 
   uploadFile(id, file) {
     const ref = firebase.storage().ref('todos/' + id + '/' + file.name);
-    const task = ref.put(file).catch(e => e);
+    const task = ref.put(file);
     return task;
   }
 
