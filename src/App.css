@@ -13,7 +13,7 @@ a {
 
 .App-header {
   display: flex;
-  background-color: #222;
+  background-color: green;
   justify-content: space-around;
   padding: 20px;
   color: white;
