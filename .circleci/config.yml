@@ -80,6 +80,9 @@ jobs:
           at: ~/repo
       - store_artifacts:
           path: ./build/
+      - run: # test what token.
+          name: "What token?"
+          command: echo $FIREBASE_TOKEN
       - run:
           name: Deploy to Firebase hosting
           command: ./node_modules/.bin/firebase deploy --token $FIREBASE_TOKEN
